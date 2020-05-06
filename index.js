@@ -2,6 +2,9 @@ const Twitter = require('twitter-lite');
 const keys = require('./keys.js');
 const language = require('@google-cloud/language');
 const languageClient = new language.LanguageServiceClient();
+var prompt = require('prompt');
+
+
 
 const user = new Twitter({
     consumer_key: keys.APIkey,
@@ -24,7 +27,7 @@ async function getSentimentScore(text) {
 async function checkFor(text) {
     try {
         let response = await user.getBearerToken();
-        console.log(`Got the following Bearer token from Twitter: ${response.access_token}`);
+        // console.log(`Got the following Bearer token from Twitter: ${response.access_token}`);
 
         const app = new Twitter({
             bearer_token: response.access_token,
@@ -32,7 +35,7 @@ async function checkFor(text) {
 
         response = await app.get(`/search/tweets`, {
             q: text, // The search term
-            lang: "en",        // Let's only get English tweets
+            lang: "en",     
             count: 100,        // Limit the results to 100 tweets
         });
 
@@ -42,7 +45,7 @@ async function checkFor(text) {
         }
 
         const sentimentScore = await getSentimentScore(allTweets);
-        console.log(`The sentiment about text  is: ${sentimentScore}`);
+        console.log(`The sentiment about ${text} is: ${sentimentScore}`);
 
 
     } catch (e) {
@@ -51,6 +54,16 @@ async function checkFor(text) {
     }
 };
 
-checkFor("apple");
+// checkFor("apple");
+
+
+prompt.start();
+
+prompt.get([{
+    name: 'searchTerm',
+    required: true
+  }], function (err, result) {
+    checkFor(result.searchTerm);
+  });
 
 
