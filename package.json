@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "GOOGLE_APPLICATION_CREDENTIALS='./twelyse-798011516603.json' node index.js"
   },
-  "author": "",
+  "author": "vijay",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/language": "^4.0.0",
+    "prompt": "^1.0.0",
     "twitter-lite": "^0.11.0"
   }
 }
